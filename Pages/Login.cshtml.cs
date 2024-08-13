@@ -23,7 +23,7 @@ namespace ProyectoRelampago.Pages
         public IActionResult OnPost()
         {
             var user =_context.Usuarios.FirstOrDefault(u => u.Email == username && u.Contrasena == password);
-            if(user != null)
+            if(user == null)
             {
                 TempData["Error"] = "Usuario y/o contraseña incorrectos";
                 return RedirectToPage("Index");
@@ -31,12 +31,12 @@ namespace ProyectoRelampago.Pages
             ClaimsIdentity identity = new ClaimsIdentity("Identity.Application");
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Nombre));
             identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()));
+
 
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
             HttpContext.SignInAsync(principal);
             Response.Cookies.Append("Id", user.UsuarioId.ToString());
-            
-            
             return RedirectToPage("ControlMarcas");
         }
     }
