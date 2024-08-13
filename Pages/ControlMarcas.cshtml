@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{usuarioId:int}"
 @model ProyectoRelampago.Pages.ControlMarcasModel
 @{
     ViewData["Title"] = "Control Marcas";
@@ -9,43 +9,37 @@
     <link rel="stylesheet" type="text/css" href="~/css/login.css" />
 </head>
 <body>
+    <h2>Control de Marcas para Usuario: @Model.Usuarios.UsuarioId - @Model.Usuario.Nombre</h2>
     <div class="row">
         <div class="col-md-6">
-            <form method="post">
+            <form method="post" asp-page-handler="MarcarEntrada">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input type="hidden" asp-for="Marca.UsuarioId" />
+                    <input type="hidden" asp-for="Marca.Empleado" value="@Model.Usuarios.UsuarioId" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Marca.Fecha" class="control-label"></label>
-                    <input asp-for="Marca.Fecha" class="form-control" id="FechaEntrada" type="date" readonly />
-                    <span asp-validation-for="Marca.Fecha" class="text-danger"></span>
+                    <label>Fecha de Entrada</label>
+                    <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Marca.HoraEntrada" class="control-label"></label>
-                    <input asp-for="Marca.HoraEntrada" class="form-control" id="HoraEntrada" readonly />
-                    <span asp-validation-for="Marca.HoraEntrada" class="text-danger"></span>
+                    <label>Hora de Entrada</label>
+                    <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Marcar Entrada" class="btn btn-primary" formaction="ControlMarcas" />
+                    <input type="submit" value="Marcar Entrada" class="btn btn-primary" />
                 </div>
             </form>
         </div>
         <div class="col-md-6">
-            <form method="post" formaction="MarcarSalida">
+            <form method="post" asp-page-handler="MarcarSalida">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input type="hidden" asp-for="Marca.UsuarioId" />
+                    <label>Fecha de Salida</label>
+                    <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Marca.Fecha" class="control-label">Fecha</label>
-                    <input asp-for="Marca.Fecha" class="form-control" id="FechaSalida" type="date" readonly />
-                    <span asp-validation-for="Marca.Fecha" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Marca.HoraSalida" class="control-label">Hora de Salida</label>
-                    <input asp-for="Marca.HoraSalida" class="form-control" id="HoraSalida" readonly />
-                    <span asp-validation-for="Marca.HoraSalida" class="text-danger"></span>
+                    <label>Hora de Salida</label>
+                    <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Marcar Salida" class="btn btn-secondary" />
