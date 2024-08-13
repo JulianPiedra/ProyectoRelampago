@@ -10,6 +10,13 @@
 </head>
 <body>
     <h2>Control de Marcas para Usuario: @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
     @if (Model.Errores != null)
     {
         <div class="alert alert-danger">@Model.Errores</div>
