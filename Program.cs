@@ -1,11 +1,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using ProyectoRelampago;
 using ProyectoRelampago.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<RedirectToLogin>();
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageApplicationModelConvention("/Login", model =>
+    {
+        model.Filters.Add(new RedirectToLogin());
+    });
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -13,7 +22,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/Login";
         options.Cookie.Name = "Cookies";
         options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Adjust for local testing if needed
     });
 
 builder.Services.AddDbContext<Context>(options =>
