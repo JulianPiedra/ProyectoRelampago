@@ -1,4 +1,4 @@
-﻿@page "{usuarioId:int}"
+﻿@page 
 @model ProyectoRelampago.Pages.ControlMarcasModel
 @{
     ViewData["Title"] = "Control Marcas";
@@ -9,13 +9,17 @@
     <link rel="stylesheet" type="text/css" href="~/css/login.css" />
 </head>
 <body>
-    <h2>Control de Marcas para Usuario: @Model.Usuarios.UsuarioId - @Model.Usuario.Nombre</h2>
+    <h2>Control de Marcas para Usuario: @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
+    @if (Model.Errores != null)
+    {
+        <div class="alert alert-danger">@Model.Errores</div>
+    }
     <div class="row">
         <div class="col-md-6">
             <form method="post" asp-page-handler="MarcarEntrada">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input type="hidden" asp-for="Marca.Empleado" value="@Model.Usuarios.UsuarioId" />
+                    <input type="hidden" asp-for="Marca.Empleado" value="@Model.Usuario.UsuarioId" />
                 </div>
                 <div class="form-group">
                     <label>Fecha de Entrada</label>
