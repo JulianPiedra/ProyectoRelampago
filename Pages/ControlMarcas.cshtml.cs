@@ -38,45 +38,45 @@ namespace ProyectoRelampago.Pages
         }
 
 
-        //public IActionResult OnPostMarcarEntrada()
-        //{
-        //    if (UsuarioIDSeleccionado == 0)
-        //    {
-        //        Errores = "Por favor, selecciona un usuario.";
-        //        return Page();
-        //    }
+        public IActionResult OnPostMarcarEntrada()
+        {
+            if (UsuarioIDSeleccionado == 0)
+            {
+                Errores = "Por favor, selecciona un usuario.";
+                return Page();
+            }
 
-        //    Marca = new Marcas
-        //    {
-        //        Empleado = UsuarioIDSeleccionado,
-        //        Fecha = DateTime.Now,
-        //        HoraEntrada = DateTime.Now.ToString("HH:mm")
-        //    };
+            Marca = new Marcas
+            {
+                Empleado = UsuarioIDSeleccionado,
+                Fecha = DateTime.Now,
+                HoraEntrada = DateTime.Now.ToString("HH:mm")
+            };
 
-        //    _context.Marcas.Add(Marca);
-        //    _context.SaveChanges();
+            _context.Marcas.Add(Marca);
+            _context.SaveChanges();
 
-        //    return RedirectToPage(new { usuarioId = UsuarioIDSeleccionado });
-        //}
+            return RedirectToPage(new { usuarioId = UsuarioIDSeleccionado });
+        }
 
-        //public IActionResult OnPostMarcarSalida()
-        //{
-        //    if (UsuarioIDSeleccionado == 0)
-        //    {
-        //        Errores = "Por favor, selecciona un usuario.";
-        //        return Page();
-        //    }
+        public IActionResult OnPostMarcarSalida()
+        {
+            if (UsuarioIDSeleccionado == 0)
+            {
+                Errores = "Por favor, selecciona un usuario.";
+                return Page();
+            }
 
-        //    var marcaExistente = _context.Marcas
-        //        .FirstOrDefault(m => m.Empleado == UsuarioIDSeleccionado && m.Fecha.HasValue && m.Fecha.Value.Date == DateTime.Today);
+            var marcaExistente = _context.Marcas
+                .FirstOrDefault(m => m.Empleado == UsuarioIDSeleccionado && m.Fecha.HasValue && m.Fecha.Value.Date == DateTime.Today);
 
-        //    if (marcaExistente != null)
-        //    {
-        //        marcaExistente.HoraSalida = DateTime.Now.ToString("HH:mm");
-        //        _context.SaveChanges();
-        //    }
+            if (marcaExistente != null)
+            {
+                marcaExistente.HoraSalida = DateTime.Now.ToString("HH:mm");
+                _context.SaveChanges();
+            }
 
-        //    return RedirectToPage(new { usuarioId = UsuarioIDSeleccionado });
-        //}
+            return RedirectToPage(new { usuarioId = UsuarioIDSeleccionado });
+        }
     }
 }
