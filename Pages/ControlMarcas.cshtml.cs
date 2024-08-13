@@ -73,7 +73,7 @@ namespace ProyectoRelampago.Pages
 
             _context.Marcas.Add(Marca);
             _context.SaveChanges();
-
+            TempData["SuccessMessage"] = "Entrada marcada exitosamente a las " + horaActual.ToString("HH:mm") + ".";
             return RedirectToPage();
 
         }
@@ -116,7 +116,7 @@ namespace ProyectoRelampago.Pages
 
             marcaExistente.HoraSalida = horaActual.ToString("HH:mm");
             _context.SaveChanges();
-
+            TempData["SuccessMessage"] = "Salida marcada exitosamente a las " + horaActual.ToString("HH:mm") + ".";
             return RedirectToPage();
         }
     }
