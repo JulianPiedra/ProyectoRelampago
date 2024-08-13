@@ -114,3 +114,21 @@ body {
     background: linear-gradient(90deg, transparent, #c92838);
     animation: btn-anim1 2s linear infinite;
 }
+@media (max-width: 480px) {
+    .login-box .logoCuc {
+        width: 100px;
+        height: 100px;
+        padding: 80px;
+    }
+    .login-box {
+        width:350px;
+    }
+
+    .login-box .user-box input, .login-box .user-box label {
+        font-size: 16px;
+    }
+
+        .login-box form button {
+            font-size: 16px;
+        }
+}

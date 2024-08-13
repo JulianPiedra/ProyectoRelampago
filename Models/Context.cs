@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProyectoRelampago.Models;
 
-public partial class Tiusr21plProyectoRelampagoJuliTamContext : DbContext
+public partial class Context : DbContext
 {
-    public Tiusr21plProyectoRelampagoJuliTamContext()
+    public Context()
     {
     }
 
-    public Tiusr21plProyectoRelampagoJuliTamContext(DbContextOptions<Tiusr21plProyectoRelampagoJuliTamContext> options)
+    public Context(DbContextOptions<Context> options)
         : base(options)
     {
     }
@@ -22,7 +22,7 @@ public partial class Tiusr21plProyectoRelampagoJuliTamContext : DbContext
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=Server=tiusr21pl.cuc-carrera-ti.ac.cr\\mssqlserver2019;Database=tiusr21pl_ProyectoRelampagoJuliTam;User id=Relampago; password=99$v88wFu; Encrypt=False;MultipleActiveResultSets=True");
+        => optionsBuilder.UseSqlServer("Name=DefaultConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,7 +33,6 @@ public partial class Tiusr21plProyectoRelampagoJuliTamContext : DbContext
             entity.HasKey(e => e.HorarioId).HasName("PK__Horarios__BB881A9EEC05375A");
 
             entity.Property(e => e.HorarioId).HasColumnName("HorarioID");
-            entity.Property(e => e.HoraSalida).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Marcas>(entity =>
