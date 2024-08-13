@@ -9,7 +9,7 @@ public partial class Horarios
 
     public int HoraEntrada { get; set; }
 
-    public string? HoraSalida { get; set; }
+    public int HoraSalida { get; set; }
 
     public virtual ICollection<Usuarios> Usuarios { get; set; } = new List<Usuarios>();
 }

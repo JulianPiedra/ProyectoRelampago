@@ -6,10 +6,10 @@ namespace ProyectoRelampago.Pages
 {
     public class ControlMarcasModel : PageModel
     {
-        private readonly Tiusr21plProyectoRelampagoJuliTamContext _context;
+        private readonly Context _context;
 
         public string? Errores { get; set; }
-        public ControlMarcasModel(Tiusr21plProyectoRelampagoJuliTamContext context)
+        public ControlMarcasModel(Context context)
         {
             _context = context;
         }
