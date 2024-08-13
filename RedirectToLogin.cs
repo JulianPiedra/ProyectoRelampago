@@ -27,7 +27,6 @@ namespace ProyectoRelampago
                         if (usuario != null)
                         {
                             context.HttpContext.Response.Cookies.Append("Id", usuario.UsuarioId.ToString());
-
                             context.Result = new RedirectToPageResult("/ControlMarcas");
                         }
                         else

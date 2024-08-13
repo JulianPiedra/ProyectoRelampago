@@ -6,14 +6,16 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="~/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/marcas.css" />
 </head>
 <body>
-    <h2>Control de Marcas para Usuario: @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
     @if (Model.Errores != null)
     {
         <div class="alert alert-danger">@Model.Errores</div>
     }
+    <h2>Control de Marcas para Usuario:<br /> @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
+
+    <div class="login-box">
     <div class="row">
         <div class="col-md-6">
             <form method="post" asp-page-handler="MarcarEntrada">
@@ -50,5 +52,6 @@
                 </div>
             </form>
         </div>
+    </div>
     </div>
 </body>
