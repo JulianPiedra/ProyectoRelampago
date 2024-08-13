@@ -1,43 +1,54 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProyectoRelampago.Models;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ProyectoRelampago.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private Context _context;
+        private readonly Context _context;
+
         public IndexModel(ILogger<IndexModel> logger, Context context)
         {
             _context = context;
             _logger = logger;
         }
+
         [BindProperty]
         public string username { get; set; }
+
         [BindProperty]
         public string password { get; set; }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var user =_context.Usuarios.FirstOrDefault(u => u.Email == username && u.Contrasena == password);
-            if(user == null)
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == username && u.Contrasena == password);
+            if (user == null)
             {
                 TempData["Error"] = "Usuario y/o contraseña incorrectos";
-                return RedirectToPage("Index");
+                return RedirectToPage();
             }
-            ClaimsIdentity identity = new ClaimsIdentity("Identity.Application");
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.Nombre));
-            identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()));
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Nombre),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString())
+            };
 
-            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-            HttpContext.SignInAsync(principal);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
             Response.Cookies.Append("Id", user.UsuarioId.ToString());
-            return RedirectToPage("ControlMarcas");
+
+            return RedirectToPage("/ControlMarcas");
         }
     }
 }

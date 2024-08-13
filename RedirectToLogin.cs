@@ -12,7 +12,7 @@ namespace ProyectoRelampago
         {
             var user = context.HttpContext.User;
 
-            if (user.Identity.IsAuthenticated )
+            if (user.Identity.IsAuthenticated)
             {
                 var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -45,10 +45,7 @@ namespace ProyectoRelampago
                     context.Result = new RedirectToPageResult("/Login");
                 }
             }
-            else
-            {
-                context.Result = new RedirectToPageResult("/Login");
-            }
+
         }
 
 
