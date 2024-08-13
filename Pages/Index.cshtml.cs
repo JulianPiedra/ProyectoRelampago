@@ -11,10 +11,21 @@ namespace ProyectoRelampago.Pages
         {
             _logger = logger;
         }
+        [BindProperty]
+        public string username { get; set; }
+        [BindProperty]
+        public string password { get; set; }
 
-        public void OnGet()
+        public IActionResult OnPost()
         {
-
+            if (username == "admin" && password == "admin")
+            {
+                return RedirectToPage("Admin");
+            }
+            else
+            {
+                return RedirectToPage("User");
+            }
         }
     }
 }
