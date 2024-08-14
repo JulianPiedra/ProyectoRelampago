@@ -10,7 +10,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AddPageApplicationModelConvention("/Login", model =>
+    options.Conventions.AddFolderApplicationModelConvention("/", model =>
     {
         model.Filters.Add(new RedirectToLogin());
     });

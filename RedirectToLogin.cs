@@ -14,6 +14,7 @@ namespace ProyectoRelampago
 
             if (user.Identity.IsAuthenticated)
             {
+                
                 var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
                 if (int.TryParse(userId, out int parsedUserId))
@@ -26,24 +27,27 @@ namespace ProyectoRelampago
 
                         if (usuario != null)
                         {
-                            context.HttpContext.Response.Cookies.Append("Id", usuario.UsuarioId.ToString());
-                            context.Result = new RedirectToPageResult("/ControlMarcas");
+                            if (!context.HttpContext.Request.Path.Value.Contains("/ControlMarcas"))
+                            {
+                                context.Result = new RedirectToPageResult("/ControlMarcas");
+                                context.HttpContext.Response.Cookies.Append("Id", usuario.UsuarioId.ToString());
+
+                            }
+
                         }
                         else
                         {
                             context.Result = new RedirectToPageResult("/Login");
                         }
                     }
-                    else
-                    {
-                        context.Result = new RedirectToPageResult("/Login");
-                    }
-                }
-                else
-                {
-                    context.Result = new RedirectToPageResult("/Login");
                 }
             }
+            else if (!user.Identity.IsAuthenticated && context.HttpContext.Request.Path.Value.Contains("/ControlMarcas"))
+            {
+                context.Result = new RedirectToPageResult("/Login");
+            }
+     
+
 
         }
 
