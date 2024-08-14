@@ -1,4 +1,4 @@
-﻿@page 
+﻿@page
 @model ProyectoRelampago.Pages.ControlMarcasModel
 @{
     ViewData["Title"] = "ControlMarcas";
@@ -23,84 +23,73 @@
             var mediaHoraAntesDeEntrada = new Date(horaEntradaDate.getTime() - 30 * 60000);
             var mediaHoraAntesDeSalida = new Date(horaSalidaDate.getTime() - 30 * 60000);
 
-            // Función para mostrar recordatorio
-            function mostrarPopup(mensaje) {
+            // Función para mostrar recordatorio como un toast
+            function mostrarToast(mensaje) {
                 Swal.fire({
-                    title: 'Recordatorio',
-                    text: mensaje,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
                     icon: 'info',
-                    confirmButtonText: 'OK'
+                    title: mensaje,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
                 });
             }
 
             // Revisar si es hora de recordar marcar entrada
             if (today >= mediaHoraAntesDeEntrada && today < horaEntradaDate) {
-                mostrarPopup("Faltan 30 minutos para que debas marcar tu entrada.");
+                var minutosRestantes = Math.ceil((horaEntradaDate - today) / 60000);
+                mostrarToast(`Faltan ${minutosRestantes} minutos para que debas marcar tu entrada.`);
             }
 
             // Revisar si es hora de recordar marcar salida
             if (today >= mediaHoraAntesDeSalida && today < horaSalidaDate) {
-                mostrarPopup("Faltan 30 minutos para que debas marcar tu salida.");
-            }
-
-            // Alternativamente, se puede usar setTimeout para ejecutar las alertas exactamente en el momento adecuado
-            var tiempoHastaMediaHoraAntesDeEntrada = mediaHoraAntesDeEntrada.getTime() - today.getTime();
-            if (tiempoHastaMediaHoraAntesDeEntrada > 0) {
-                setTimeout(function () {
-                    mostrarPopup("Faltan 30 minutos para que debas marcar tu entrada.");
-                }, tiempoHastaMediaHoraAntesDeEntrada);
-            }
-
-            var tiempoHastaMediaHoraAntesDeSalida = mediaHoraAntesDeSalida.getTime() - today.getTime();
-            if (tiempoHastaMediaHoraAntesDeSalida > 0) {
-                setTimeout(function () {
-                    mostrarPopup("Faltan 30 minutos para que debas marcar tu salida.");
-                }, tiempoHastaMediaHoraAntesDeSalida);
+                var minutosRestantes = Math.ceil((horaSalidaDate - today) / 60000);
+                mostrarToast(`Faltan ${minutosRestantes} minutos para que debas marcar tu salida.`);
             }
         });
     </script>
 </head>
 <body>
-
-
+    <div class="titulo">
+        <h2>Control de Marcas para Usuario:<br /> @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
+    </div>
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">
+        <div class="success">
             @TempData["SuccessMessage"]
         </div>
     }
-    @if (Model.Errores != null)
+    @if (TempData["Errores"] != null)
     {
-        <div class="alert alert-danger">@Model.Errores</div>
+        <div class="error">@TempData["Errores"]</div>
     }
-    <div class="titulo">
-    <h2>Control de Marcas para Usuario:<br /> @Model.Usuario.UsuarioId - @Model.Usuario.Nombre</h2>
-    </div>
     <div class="login-box">
-           <form method="post" asp-page-handler="MarcarEntrada">
+        <form method="post" asp-page-handler="MarcarEntrada">
             <center>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Marca.Empleado" value="@Model.Usuario.UsuarioId" />
-                    <label>Fecha de Entrada</label>
-                    <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
-                    <label>Hora de Entrada</label>
-                    <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
-           
-                    <button type="submit" value="Marcar Entrada">Marcar entrada</button>
+                <input type="hidden" asp-for="Marca.Empleado" value="@Model.Usuario.UsuarioId" />
+                <label>Fecha de Entrada</label>
+                <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+                <label>Hora de Entrada</label>
+                <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
+                <button type="submit" value="Marcar Entrada">Marcar entrada</button>
             </center>
-            </form>
+        </form>
 
-
-            <form method="post" asp-page-handler="MarcarSalida">
+        <form method="post" asp-page-handler="MarcarSalida">
             <center>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <label>Fecha de Salida</label>
-                    <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
-                    <label>Hora de Salida</label>
-                    <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
-            
-                    <button type="submit" value="Marcar Salida" >Marcar salida</button>
-                </center>
-            </form>
+                <label>Fecha de Salida</label>
+                <input class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+                <label>Hora de Salida</label>
+                <input class="form-control" value="@DateTime.Now.ToString("HH:mm")" readonly />
+                <button type="submit" value="Marcar Salida">Marcar salida</button>
+            </center>
+        </form>
     </div>
 </body>

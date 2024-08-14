@@ -7,6 +7,23 @@ body {
     background-color: #7154fc;
     flex-direction:column;
 }
+.error {
+    color:white;
+    background-color:red;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    width:21%;
+    margin-bottom:20px
+}
+.success {
+    color: white;
+    background-color: green;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    width: 21%;
+}
 .titulo {
     color: white;
     font-size: 30px;
@@ -94,6 +111,7 @@ body {
         font-size: 17px;
     }
 }
+
 @media screen and (max-width: 800px) and (max-height: 360px) and (orientation: landscape) {
     .login-box {
         width: 600px;
@@ -102,12 +120,17 @@ body {
         flex-wrap:nowrap;
         background-color: #f5f5f5;
     }
-
+    .error {
+        width: 80%;
+    }
     .titulo {
         font-size: 18px;
         margin-top: 0;
+        margin-bottom: 0;
     }
-
+    h2{
+        margin:0 auto;
+    }
     .login-box button {
         font-size: 16px;
     }
