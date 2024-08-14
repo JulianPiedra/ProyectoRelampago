@@ -35,6 +35,11 @@ namespace ProyectoRelampago.Pages
                 Errores = "Usuario no encontrado.";
                 return;
             }
+
+            if (Usuario.HorarioNavigation == null)
+            {
+                Errores = "No se encontró un horario asignado a este usuario.";
+            }
         }
 
 

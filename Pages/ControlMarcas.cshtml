@@ -7,8 +7,61 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="~/css/marcas.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener las horas de entrada y salida desde el modelo
+            var horaEntrada = @Model.Usuario.HorarioNavigation?.HoraEntrada ?? 0;
+            var horaSalida = @Model.Usuario.HorarioNavigation?.HoraSalida ?? 0;
+
+            // Convertir las horas de entrada y salida a objetos Date
+            var today = new Date();
+            var horaEntradaDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), horaEntrada, 0, 0);
+            var horaSalidaDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), horaSalida, 0, 0);
+
+            // Calcular media hora antes de la entrada y salida
+            var mediaHoraAntesDeEntrada = new Date(horaEntradaDate.getTime() - 30 * 60000);
+            var mediaHoraAntesDeSalida = new Date(horaSalidaDate.getTime() - 30 * 60000);
+
+            // Función para mostrar recordatorio
+            function mostrarPopup(mensaje) {
+                Swal.fire({
+                    title: 'Recordatorio',
+                    text: mensaje,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            // Revisar si es hora de recordar marcar entrada
+            if (today >= mediaHoraAntesDeEntrada && today < horaEntradaDate) {
+                mostrarPopup("Faltan 30 minutos para que debas marcar tu entrada.");
+            }
+
+            // Revisar si es hora de recordar marcar salida
+            if (today >= mediaHoraAntesDeSalida && today < horaSalidaDate) {
+                mostrarPopup("Faltan 30 minutos para que debas marcar tu salida.");
+            }
+
+            // Alternativamente, se puede usar setTimeout para ejecutar las alertas exactamente en el momento adecuado
+            var tiempoHastaMediaHoraAntesDeEntrada = mediaHoraAntesDeEntrada.getTime() - today.getTime();
+            if (tiempoHastaMediaHoraAntesDeEntrada > 0) {
+                setTimeout(function () {
+                    mostrarPopup("Faltan 30 minutos para que debas marcar tu entrada.");
+                }, tiempoHastaMediaHoraAntesDeEntrada);
+            }
+
+            var tiempoHastaMediaHoraAntesDeSalida = mediaHoraAntesDeSalida.getTime() - today.getTime();
+            if (tiempoHastaMediaHoraAntesDeSalida > 0) {
+                setTimeout(function () {
+                    mostrarPopup("Faltan 30 minutos para que debas marcar tu salida.");
+                }, tiempoHastaMediaHoraAntesDeSalida);
+            }
+        });
+    </script>
 </head>
 <body>
+
 
     @if (TempData["SuccessMessage"] != null)
     {
